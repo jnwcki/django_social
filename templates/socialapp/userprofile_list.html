@@ -4,14 +4,14 @@
 <div class="container">
 <h2>My Liked Posts</h2>
 <ul>
-    {% for like in user.likes.values %}
+    {% for like in request.user.userprofile.likes.all %}
     <li>{{ like.title }}</li>
     {% endfor %}
 </ul>
 <h2>My Liked Users</h2>
 <ul>
-    {% for friend in user.friends.values %}
-    <li>{{ friend.screen_name }}</li>
+    {% for friend in request.user.userprofile.friends.all %}
+    <li>{{ friend }}</li>
     {% endfor %}
 </ul>
 </div>

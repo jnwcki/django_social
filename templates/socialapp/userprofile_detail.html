@@ -9,8 +9,12 @@
             {% for post in userprofile.user.post_set.all %}
             <li>{{ post.title }}</li>
             {% endfor %}
-            <h4>Author Likes</h4>
+            <h4>Author Likes These Posts</h4>
             {% for like in userprofile.likes.all %}
+            <li>{{ like }}</li>
+            {% endfor %}
+            <h4>Author Likes These Authors</h4>
+            {% for like in userprofile.friends.all %}
             <li>{{ like }}</li>
             {% endfor %}
         </ul>

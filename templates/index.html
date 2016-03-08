@@ -5,7 +5,7 @@
     {% for post in object %}
     <div class="panel panel-default">
   <div class="panel-heading">
-    <h3 class="panel-title">{{ post.title }}</h3>
+    <h3 class="panel-title"><a href="{% url 'post_detail' post.pk %}">{{ post.title }}</a></h3>
   </div>
   <div class="panel-body">
     <p>{{ post.blog }}</p>
@@ -14,9 +14,9 @@
       <p>Activity Class: {{ post.get_activity_display }}</p>
 
       <ul>
-          <li>Created By: {{ post.user }} on {{ post.post_time }}</li>
+          <li>Created By: <a href="{% url 'author' post.user.userprofile.pk %}">{{ post.user.userprofile.screen_name }}</a> on {{ post.post_time }}</li>
           <li><a href="{% url 'like_post' post.pk %}">Like This Post </a></li>
-          <li><a href="{% url 'like_author' post.user_id %}">Like This Author</a></li>
+          <li><a href="{% url 'like_author' post.user.userprofile.pk %}">Like This Author</a></li>
       </ul>
   </div>
 </div>

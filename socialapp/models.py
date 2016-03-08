@@ -1,6 +1,8 @@
 from django.db import models
 
 # Create your models here.
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 CHOICES = [('h', 'Hiking'),
            ('r', 'Running'),
@@ -13,6 +15,8 @@ CHOICES = [('h', 'Hiking'),
 class Tag(models.Model):
     name = models.CharField(max_length=50)
 
+    def __str__(self):
+        return self.name
 
 class Post(models.Model):
     title = models.CharField(max_length=100)
@@ -32,9 +36,20 @@ class Post(models.Model):
 class UserProfile(models.Model):
     user = models.OneToOneField("auth.User")
     screen_name = models.CharField(max_length=50)
-    likes = models.ManyToManyField(Post)
-    friends = models.ManyToManyField('self', related_name='friend')
+    likes = models.ManyToManyField(Post, related_name="user_likes")
+    friends = models.ManyToManyField('auth.User', related_name='friend')
 
     def __str__(self):
         return self.screen_name
+
+
+@receiver(post_save, sender="auth.User")
+def user_profile_create(sender, **kwargs):
+    created = kwargs.get("created")
+    if created:
+        instance = kwargs.get("instance")
+        UserProfile.objects.create(user=instance)
+
+
+
 

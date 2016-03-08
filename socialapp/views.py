@@ -8,7 +8,7 @@ from django.db import IntegrityError
 # Create your views here.
 from django.views.generic import CreateView, TemplateView, View, ListView, DetailView
 
-from socialapp.models import UserProfile, Post
+from socialapp.models import UserProfile, Post, Tag
 
 
 class NewUserCreation(UserCreationForm):
@@ -22,7 +22,8 @@ class UserCreateView(CreateView):
     def form_valid(self, form):
         new_user = form.save()
         new_user_screen_name = form.cleaned_data.get('screen_name')
-        UserProfile.objects.create(user=new_user, screen_name=new_user_screen_name)
+        new_user.userprofile.screen_name = new_user_screen_name
+        new_user.userprofile.save()
         return super().form_valid(form)
 
     def get_success_url(self):
@@ -41,6 +42,7 @@ class IndexView(TemplateView):
 
 class CreatePostView(CreateView):
     model = Post
+
     fields = ['title', 'blog', 'activity']
 
     def form_valid(self, form):
@@ -77,7 +79,20 @@ class LikeAuthor(View):
         except IntegrityError:
             return HttpResponseRedirect(reverse('index'))
 
-# user.is_authenticated from base.html doesn't seem to be working on this view:
+
+class TagPost(View):
+    def get(self, request, tag, post):
+        working_post = Post.objects.get(pk=post)
+        working_tag = Tag.objects.get(pk=tag)
+        try:
+            working_post.add(working_tag)
+            return HttpResponseRedirect(reverse('post_detail', post))
+        except IntegrityError:
+            return HttpResponseRedirect(reverse('post_detail', post))
+
+
+
+
 class MyLikes(View):
     def get(self, request):
         user = UserProfile.objects.get(user=self.request.user)
@@ -87,3 +102,18 @@ class MyLikes(View):
 class AuthorView(DetailView):
     model = UserProfile
 
+
+class PostDetailView(View):
+
+    def get(self, request, pk):
+        post = Post.objects.get(pk=pk)
+        tags = Tag.objects.all()
+
+        return render(request, 'socialapp/post_detail_view.html',
+                      {'post_detail': post,
+                       'all_tags': tags}
+                      )
+
+
+    def post(self):
+        pass

@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<div class="container">
+    <ul>
+    <li>{{ post_detail.title }}</li>
+    <li>{{ post_detail.blog }}</li>
+    <li>{{ post_detail.user.userprofile.screen_name }}</li>
+    </ul>
+<h4>Tags</h4>
+        {% for tag in all_tags %}
+        <br>{{ tag }}
+        {% endfor %}
+
+</div>
+{% endblock %}
