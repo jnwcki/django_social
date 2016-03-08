@@ -10,12 +10,17 @@ CHOICES = [('h', 'Hiking'),
            ]
 
 
+class Tag(models.Model):
+    name = models.CharField(max_length=50)
+
+
 class Post(models.Model):
     title = models.CharField(max_length=100)
     blog = models.TextField()
     activity = models.CharField(max_length=30, choices=CHOICES)
     user = models.ForeignKey('auth.User')
     post_time = models.DateTimeField(auto_now_add=True)
+    post_tags = models.ManyToManyField(Tag)
 
     class Meta:
         ordering = ["-post_time"]
@@ -32,3 +37,4 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return self.screen_name
+

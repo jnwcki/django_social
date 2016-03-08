@@ -80,5 +80,5 @@ class LikeAuthor(View):
 # user.is_authenticated from base.html doesn't seem to be working on this view:
 class MyLikes(View):
     def get(self, request):
-            user = UserProfile.objects.get(user=self.request.user)
-            return render(request, 'socialapp/userprofile_list.html', {'user': user})
+        user = UserProfile.objects.get(user=self.request.user)
+        return render(request, 'socialapp/userprofile_list.html', {'user': user})
