@@ -6,7 +6,7 @@ from django.shortcuts import render
 from django import forms
 from django.db import IntegrityError
 # Create your views here.
-from django.views.generic import CreateView, TemplateView, View, ListView
+from django.views.generic import CreateView, TemplateView, View, ListView, DetailView
 
 from socialapp.models import UserProfile, Post
 
@@ -82,3 +82,8 @@ class MyLikes(View):
     def get(self, request):
         user = UserProfile.objects.get(user=self.request.user)
         return render(request, 'socialapp/userprofile_list.html', {'user': user})
+
+
+class AuthorView(DetailView):
+    model = UserProfile
+

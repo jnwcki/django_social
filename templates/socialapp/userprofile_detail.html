@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container">
+        <h2>Author Details</h2>
+        <ul>
+            <li>{{ userprofile.screen_name }}</li>
+            <h4>Author Posts</h4>
+            {% for post in userprofile.user.post_set.all %}
+            <li>{{ post.title }}</li>
+            {% endfor %}
+            <h4>Author Likes</h4>
+            {% for like in userprofile.likes.all %}
+            <li>{{ like }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}
