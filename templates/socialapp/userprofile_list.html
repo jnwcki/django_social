@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+<h2>My Liked Posts</h2>
+<ul>
+    {% for like in user.likes.values %}
+    <li>{{ like.title }}</li>
+    {% endfor %}
+</ul>
+<h2>My Liked Users</h2>
+<ul>
+    {% for friend in user.friends.values %}
+    <li>{{ friend.screen_name }}</li>
+    {% endfor %}
+</ul>
+</div>
+{% endblock %}

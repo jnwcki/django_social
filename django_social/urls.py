@@ -17,7 +17,7 @@ from django.conf.urls import url
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
 
-from socialapp.views import IndexView, UserCreateView, CreatePostView
+from socialapp.views import IndexView, UserCreateView, CreatePostView, LikePost, LikeAuthor, MyLikes
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -25,5 +25,8 @@ urlpatterns = [
     url(r'^createuser/', UserCreateView.as_view(), name="create_user"),
     url(r'login/', auth_views.login, name='login'),
     url(r'logout', auth_views.logout_then_login, name='logout'),
-    url(r'create', CreatePostView.as_view(), name='create')
+    url(r'create', CreatePostView.as_view(), name='create'),
+    url(r'like_post/(?P<pk>\d+)', LikePost.as_view(), name="like_post"),
+    url(r'like_author/(?P<pk>\d+)', LikeAuthor.as_view(), name="like_author"),
+    url(r'my_likes/', MyLikes.as_view(), name='my_likes')
 ]

@@ -1,15 +1,23 @@
 {% extends 'base.html' %}
 {% block content %}
 <h2>Welcome to the main page</h2>
-    
+    <br><br>
     {% for post in object %}
     <div class="panel panel-default">
   <div class="panel-heading">
     <h3 class="panel-title">{{ post.title }}</h3>
   </div>
   <div class="panel-body">
-    {{ post.blog }}
-      <br><br><p>Created By: {{ post.user }} on {{ post.post_time }}</p>
+    <p>{{ post.blog }}</p>
+
+      <br><br>
+      <p>Activity Class: {{ post.get_activity_display }}</p>
+
+      <ul>
+          <li>Created By: {{ post.user }} on {{ post.post_time }}</li>
+          <li><a href="{% url 'like_post' post.pk %}">Like This Post </a></li>
+          <li><a href="{% url 'like_author' post.user_id %}">Like This Author</a></li>
+      </ul>
   </div>
 </div>
 
