@@ -32,7 +32,8 @@
       </form>
         {% endblock searchbar %}
         <ul class="nav navbar-nav navbar-right">
-           {% if request.user.is_authenticated %}
+                <li><a href="{% url 'tags' %}">All Tags</a></li>
+            {% if request.user.is_authenticated %}
                <li><a>Welcome {{ request.user }}</a></li>
                <li><a href="{% url 'my_likes' %}">My Likes</a></li>
 

@@ -18,11 +18,12 @@
           <li>Created By: <a href="{% url 'author' post.user.userprofile.pk %}">{{ post.user.userprofile.screen_name }}</a> on {{ post.post_time }}</li>
           <li><a href="{% url 'like_post' post.pk %}">Like This Post </a></li>
           <li><a href="{% url 'like_author' post.user.userprofile.pk %}">Like This Author</a></li>
+
+          <li>Tags: {{ post.post_tags.values }}</li>
       </ul>
   </div>
 </div>
 
-    {% endfor %}
-
+     {% endfor %}
 {% endblock %}
 
