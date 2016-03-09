@@ -53,7 +53,7 @@ class IndexView(TemplateView):
 class CreatePostView(CreateView):
     model = Post
 
-    fields = ['title', 'blog', 'activity']
+    fields = ['title', 'blog', 'activity', 'post_tags']
 
     def form_valid(self, form):
         new_post = form.save(commit=False)
@@ -90,19 +90,6 @@ class LikeAuthor(View):
             return HttpResponseRedirect(reverse('index'))
 
 
-class TagPost(View):
-    def get(self, request, tag, post):
-        working_post = Post.objects.get(pk=post)
-        working_tag = Tag.objects.get(pk=tag)
-        try:
-            working_post.add(working_tag)
-            return HttpResponseRedirect(reverse('post_detail', post))
-        except IntegrityError:
-            return HttpResponseRedirect(reverse('post_detail', post))
-
-
-
-
 class MyLikes(View):
     def get(self, request):
         user = UserProfile.objects.get(user=self.request.user)
@@ -123,6 +110,7 @@ class PostDetailView(View):
                       {'post_detail': post,
                        'all_tags': tags}
                       )
+
 
 class TagView(CreateView):
     model = Tag
