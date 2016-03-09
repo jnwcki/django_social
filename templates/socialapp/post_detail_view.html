@@ -1,16 +1,31 @@
 {% extends 'base.html' %}
 
+{% block searchbar %}{% endblock %}
 
 {% block content %}
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h2 class="panel-title">{{ post_detail.title }}</h2>
+  </div>
+  <div class="panel-body">
+        <p>{{ post_detail.blog }}</p>
+      <br><br>
+        <p>Activity Class: {{ post_detail.get_activity_display }}</p>
+
+      <ul>
+          <li>Created By: <a href="{% url 'author' post_detail.user.userprofile.pk %}">{{ post_detail.user.userprofile.screen_name }}</a> on {{ post_detail.post_time }}</li>
+          <li><a href="{% url 'like_post' post_detail.pk %}">Like This Post </a></li>
+          <li><a href="{% url 'like_author' post_detail.user.userprofile.pk %}">Like This Author</a></li>
+      </ul>
+
+  </div>
+</div>
+
+
 <div class="container">
-    <ul>
-    <li>{{ post_detail.title }}</li>
-    <li>{{ post_detail.blog }}</li>
-    <li>{{ post_detail.user.userprofile.screen_name }}</li>
-    </ul>
 <h4>Tags</h4>
         {% for tag in all_tags %}
-        <br>{{ tag }}
+        {{ tag }},
         {% endfor %}
 
 </div>
