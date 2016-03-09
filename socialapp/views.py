@@ -5,8 +5,8 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django import forms
 from django.db import IntegrityError
-# Create your views here.
-from django.views.generic import CreateView, TemplateView, View, ListView, DetailView
+from django.views.generic import CreateView, TemplateView, View, DetailView
+from django.views.generic.edit import FormMixin
 
 from socialapp.models import UserProfile, Post, Tag
 
@@ -38,6 +38,17 @@ class IndexView(TemplateView):
         context['object'] = Post.objects.all()
 
         return context
+
+    def post(self, request, *args, **kwargs):
+        t_search = request.POST.get('tag_search')
+        results = []
+        search_true = "Search Results:"
+        if t_search:
+            results = Post.objects.filter(post_tags__name__contains=t_search)
+        return render(request, 'index.html', {"object": results,
+                                              "search_true": search_true
+                                              }
+                      )
 
 
 class CreatePostView(CreateView):
@@ -114,6 +125,6 @@ class PostDetailView(View):
                        'all_tags': tags}
                       )
 
-
     def post(self):
         pass
+# search function view from movieratings
