@@ -1,1 +1,4 @@
 .idea/
+socialapp/__pycache__/
+django_social/__pycache__/
+socialapp/migrations/__pycache__/
